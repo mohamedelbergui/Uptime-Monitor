@@ -1,0 +1,40 @@
+# --- Virtual Environment ---
+.venv/
+venv/
+env/
+ENV/
+pythonenv*/
+
+# --- Environment Files (Security / API Keys) ---
+.env
+.flaskenv
+*.env
+instance/
+
+# --- Python Cache and Compilation ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+
+# --- Dependencies and Distributions ---
+dist/
+build/
+*.egg-info/
+lib/
+lib64/
+
+# --- VS Code ---
+.vscode/
+*.code-workspace
+
+# --- PostgreSQL (Local Backups & Dumps) ---
+*.sql
+*.dump
+.pgpass
+
+# --- Operating System (OS) ---
+.DS_Store
+Thumbs.db
