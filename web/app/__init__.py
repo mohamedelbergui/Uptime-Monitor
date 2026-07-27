@@ -1,0 +1,19 @@
+from flask import Flask
+from app.config import DevelopmentConfig
+from app.extensions import db
+
+def create_app(config_class=DevelopmentConfig):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+
+    # Initializing extensions
+    db.init_app(app)
+
+    # Recording of Blueprints
+    from app.routes import main_bp
+    from app.routes import auth_bp
+    
+    app.register_blueprint(main_bp)
+    app.register_blueprint(auth_bp, url_prefix="/auth")
+
+    return app
