@@ -1,8 +1,8 @@
 """add services table
 
-Revision ID: 454e345bae84
-Revises: c91798799912
-Create Date: 2026-07-31 20:29:19.152493
+Revision ID: 6e5a535eb61a
+Revises: 55d1fba0061d
+Create Date: 2026-07-31 20:47:52.956966
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '454e345bae84'
-down_revision = 'c91798799912'
+revision = '6e5a535eb61a'
+down_revision = '55d1fba0061d'
 branch_labels = None
 depends_on = None
 
@@ -22,11 +22,11 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('url', sa.String(length=300), nullable=False),
-    sa.Column('name', sa.String(length=200), nullable=False),
+    sa.Column('name', sa.String(length=200), nullable=True),
     sa.Column('check_interval_sec', sa.Integer(), nullable=False),
     sa.Column('is_active', sa.Boolean(), nullable=False),
-    sa.Column('ceated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.Column('ceated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

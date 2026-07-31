@@ -1,8 +1,8 @@
 """add check_results table
 
-Revision ID: a63f7feef3b2
-Revises: 454e345bae84
-Create Date: 2026-07-31 20:36:24.656857
+Revision ID: d34076de30e1
+Revises: 6e5a535eb61a
+Create Date: 2026-07-31 20:48:15.207643
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a63f7feef3b2'
-down_revision = '454e345bae84'
+revision = 'd34076de30e1'
+down_revision = '6e5a535eb61a'
 branch_labels = None
 depends_on = None
 
@@ -25,8 +25,8 @@ def upgrade():
     sa.Column('response_time_ms', sa.FLOAT(), nullable=False),
     sa.Column('message', sa.String(length=600), nullable=False),
     sa.Column('timestamp', sa.DateTime(timezone=True), nullable=False),
-    sa.Column('ceated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
-    sa.ForeignKeyConstraint(['id_service'], ['services.id'], ),
+    sa.Column('ceated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.ForeignKeyConstraint(['id_service'], ['services.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
