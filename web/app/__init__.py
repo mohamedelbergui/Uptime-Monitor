@@ -1,6 +1,7 @@
 from flask import Flask
 from app.config import DevelopmentConfig
-from app.extensions import db
+from app.extensions import db, migrate
+import app.models
 
 def create_app(config_class=DevelopmentConfig):
     app = Flask(__name__)
@@ -8,6 +9,7 @@ def create_app(config_class=DevelopmentConfig):
 
     # Initializing extensions
     db.init_app(app)
+    migrate.init_app(app,db)
 
     # Recording of Blueprints
     from app.routes import main_bp
