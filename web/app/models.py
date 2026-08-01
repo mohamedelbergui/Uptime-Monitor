@@ -17,6 +17,10 @@ class User(Base, UserMixin):
     username: Mapped[str] = mapped_column(String(120),unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String(255), nullable=False)
 
+    @staticmethod
+    def get(user_id):
+        return db.session.get(User,user_id)
+
 class Service(Base):
     __tablename__ = "services"
 

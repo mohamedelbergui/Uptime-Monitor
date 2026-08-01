@@ -1,5 +1,5 @@
 from app.extensions import db
-from app.models import User
+from app.models import User, Service
 from app.extensions import login_manager
 from flask_login import login_user
 
@@ -42,4 +42,25 @@ class AuthService:
             login_user(user)
             return user
         else:
+            return None
+
+class ServiceService:
+    @staticmethod
+    def create_service(data:dict, user_id:int):
+        if 'url' not in data.keys():
+            raise ValidationError("URL is missing!")
+        if 'check_interval_sec' not in data.keys():
+            raise ValidationError("check interval is missing!")
+        service = Service(
+            user_id = user_id,
+            url = data['url'],
+            check_interval_sec = data['check_interval_sec'],
+            name = data.get('name')
+        )
+        db.session.add(service)
+        try:
+            db.session.commit()
+            return service
+        except Exception as e:
+            raise Exception(str(e))
             return None
