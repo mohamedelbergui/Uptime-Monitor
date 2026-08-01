@@ -2,12 +2,13 @@ from app.extensions import db
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase
 from sqlalchemy import func, ForeignKey, String, Integer, Boolean, FLOAT, DateTime
 from datetime import datetime
+from flask_login import UserMixin
 
 class Base(db.Model):
     __abstract__ = True
     ceated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True),server_default=func.now(), nullable=False)
 
-class User(Base):
+class User(Base, UserMixin):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True)
