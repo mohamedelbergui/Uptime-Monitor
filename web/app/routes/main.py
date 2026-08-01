@@ -34,3 +34,12 @@ def add_service():
             flash(str(e),"error")
             return redirect(url_for('main.add_service'))
     return render_template("create_service.html")
+
+@main_bp.post("service/<int:id>/check/add")
+def check_result(id):
+    srvc = id
+    data = request.get_json()
+    try:
+        check = ServiceService.create_check_result(data=data, id_service=srvc)
+    except Exception as e:
+        print(str(e))

@@ -1,5 +1,5 @@
 from app.extensions import db
-from app.models import User, Service
+from app.models import User, Service, CheckResult
 from app.extensions import login_manager
 from flask_login import login_user
 
@@ -63,4 +63,19 @@ class ServiceService:
             return service
         except Exception as e:
             raise Exception(str(e))
-            return None
+            
+    @staticmethod
+    def create_check_result(data:dict, id_service:int):
+        check = CheckResult(
+            id_service=id_service,
+            status_code=data['status_code'],
+            response_time_ms=data['response_time_ms'],
+            message=data.get('message'),
+            timestamp=data['timestamp']
+        )
+        db.session.add(check)
+        try:
+            db.session.commit()
+            return check
+        except Exception as e:
+            raise Exception(str(e))
