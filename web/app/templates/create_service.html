@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="{{ url_for('main.add_service') }}" method="post">
+    <label for="url">URL</label>
+    <input type="text" name="url" id="url">
+
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name">
+
+    <label for="check_interval_sec">check interval in seconds</label>
+    <input type="number" name="check_interval_sec" id="check_interval_sec">
+    
+    <input type="submit" value="Create">
+</form>
+{% endblock %}
