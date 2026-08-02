@@ -1,5 +1,6 @@
 # --- Virtual Environment ---
 .venv/
+.worker_venv/
 venv/
 env/
 ENV/
