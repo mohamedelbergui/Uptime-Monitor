@@ -24,7 +24,7 @@ CONN_STRING = f"postgresql://{username}:{password}@localhost:5432/{db_name}"
 
 async def get_services(connection):
     async with connection.cursor() as cursor:
-        await cursor.execute("SELECT * FROM services;")
+        await cursor.execute("SELECT * FROM services WHERE services.is_active;")
         return await cursor.fetchall()
 
 async def save_in_db(

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Edit</h1>
+<form action="{{ url_for('main.edit_service' , id=service.id) }}" method="post">
+    <label for="url">URL</label>
+    <input type="text" name="url" id="url" value="{{ service.url }}">
+
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" value="{{ service.name }}">
+
+    <label for="check_interval_sec">check interval in seconds</label>
+    <input type="number" name="check_interval_sec" id="check_interval_sec" value="{{ service.check_interval_sec }}">
+    
+    <label for="is_active">Is active</label>
+    {% if service.is_active %}
+    <input type="checkbox" name="is_active" id="is_active" value="true" checked>
+    {% else %}
+    <input type="checkbox" name="is_active" id="is_active" value="true">
+    {% endif %}
+
+    <input type="submit" value="Edit">
+</form>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>dashboard</h1>
+<table>
+<thead>
+
+<div id="services">
+{% for service in data %}
+<div id="servc_card">
+
+{% if service.name %}
+<h3>{{ service.name }}</h3>
+{% endif %}
+<h3>{{ service.url }}</h3>
+<menu>
+    <li>Check interval: {{ service.check_interval_sec }} s </li>
+    <li>Last check: {{ service.timestamp }}</li>
+    <li>Status: {{ service.message }} </li>
+    <li>Status code: {{ service.status_code }} </li>
+    <li>Response time: {{ service.response_time_ms }} ms </li>
+</menu>
+</div>
+{% endfor %}
+</div>
+
+{% endblock %}
