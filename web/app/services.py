@@ -2,6 +2,7 @@ from app.extensions import db
 from app.models import User, Service, CheckResult
 from app.extensions import login_manager
 from flask_login import login_user
+from sqlalchemy import desc
 
 class ValidationError(Exception):
     pass
@@ -65,17 +66,30 @@ class ServiceService:
             raise Exception(str(e))
             
     @staticmethod
-    def create_check_result(data:dict, id_service:int):
-        check = CheckResult(
-            id_service=id_service,
-            status_code=data['status_code'],
-            response_time_ms=data['response_time_ms'],
-            message=data.get('message'),
-            timestamp=data['timestamp']
-        )
-        db.session.add(check)
-        try:
-            db.session.commit()
-            return check
-        except Exception as e:
-            raise Exception(str(e))
+    def edit_service(data:dict, id_service:int):
+        service = db.session.get(Service,id_service)
+        for key, value in data.items():
+            setattr(service,key, value)
+        db.session.commit()
+        return service
+
+    @staticmethod
+    def get_services_check(user_id:int):
+        services=Service.query.filter_by(user_id=user_id).all()
+        services_list=[]
+        for service in services:
+            check_last = CheckResult.query.filter_by(id_service=service.id).order_by(desc(CheckResult.timestamp)).first()
+            services_list.append(
+                {
+                    "id": service.id,
+                    "url": service.url,
+                    "name": service.name,
+                    "check_interval_sec": service.check_interval_sec,
+                    "status_code": check_last.status_code,
+                    "response_time_ms": check_last.response_time_ms,
+                    "message": check_last.message,
+                    "timestamp": check_last.timestamp
+                }
+            )
+        return services_list
+        
