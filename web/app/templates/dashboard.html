@@ -15,11 +15,28 @@
 <h3>{{ service.url }}</h3>
 <menu>
     <li>Check interval: {{ service.check_interval_sec }} s </li>
+    {% if service.is_checked %}
     <li>Last check: {{ service.timestamp }}</li>
     <li>Status: {{ service.message }} </li>
     <li>Status code: {{ service.status_code }} </li>
     <li>Response time: {{ service.response_time_ms }} ms </li>
+    {% else %}
+    <h4>No check available</h4>
+    {% endif %}
 </menu>
+<div id="tools">
+    <a href="{{ url_for('main.edit_service', id=service.id) }}">Modify</a>
+    {% if service.is_active %}
+    <form action="{{ url_for('main.svc_deactivate', id=service.id) }}" method="POST">
+        <input type="submit" value="Deactivate">
+    </form>
+    {% else %}
+    <form action="{{ url_for('main.svc_activate', id=service.id) }}" method="POST">
+        <input type="submit" value="Activate">
+    </form>
+    {% endif %}
+    <a href="{{ url_for('main.svc_delete', id=service.id) }}">Delete</a>
+</div>
 </div>
 {% endfor %}
 </div>

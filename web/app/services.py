@@ -4,6 +4,7 @@ from app.extensions import login_manager
 from flask_login import login_user
 from sqlalchemy import desc
 
+
 class ValidationError(Exception):
     pass
 
@@ -79,17 +80,42 @@ class ServiceService:
         services_list=[]
         for service in services:
             check_last = CheckResult.query.filter_by(id_service=service.id).order_by(desc(CheckResult.timestamp)).first()
-            services_list.append(
-                {
-                    "id": service.id,
-                    "url": service.url,
-                    "name": service.name,
-                    "check_interval_sec": service.check_interval_sec,
-                    "status_code": check_last.status_code,
-                    "response_time_ms": check_last.response_time_ms,
-                    "message": check_last.message,
-                    "timestamp": check_last.timestamp
-                }
-            )
+            if check_last:
+                services_list.append(
+                    {
+                        "id": service.id,
+                        "url": service.url,
+                        "name": service.name,
+                        "is_active":service.is_active,
+                        "check_interval_sec": service.check_interval_sec,
+                        "is_checked":True,
+                        "status_code": check_last.status_code,
+                        "response_time_ms": check_last.response_time_ms,
+                        "message": check_last.message,
+                        "timestamp": check_last.timestamp
+                    }
+                )
+            else:
+                services_list.append(
+                                    {
+                                        "id": service.id,
+                                        "url": service.url,
+                                        "name": service.name,
+                                        "is_active":service.is_active,
+                                        "check_interval_sec": service.check_interval_sec,
+                                        "is_checked":False,
+                                    }
+                                )
         return services_list
+    
+    @staticmethod
+    def svc_delete(service_id, user_id):
+        service=db.session.get(Service,ident=service_id)
+        if service.user_id==user_id:
+            db.session.delete(service)
+            db.commit()
+        else:
+            raise ValidationError("access to this feature is denied")
+
+
         
