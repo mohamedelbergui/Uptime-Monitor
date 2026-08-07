@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_required
-from app.services import ServiceService
+from app.services import ServiceService, ValidationError
 from app.models import Service
 
 main_bp = Blueprint("main", __name__)
@@ -75,3 +75,38 @@ def edit_service(id):
             "is_active":service.is_active,
         }
         )
+
+@main_bp.post("/service/<int:id>/deactivate")
+@login_required
+def svc_deactivate(id):
+    ServiceService.edit_service(
+        data={"is_active":False},
+        id_service=id
+    )
+    return redirect(url_for('main.dashboard'))
+
+@main_bp.post("/service/<int:id>/activate")
+@login_required
+def svc_activate(id):
+    ServiceService.edit_service(
+        data={"is_active":True},
+        id_service=id
+    )
+    return redirect(url_for('main.dashboard'))
+
+
+@main_bp.route("/service/<int:id>/delete", methods=['GET','POST'])
+@login_required
+def svc_delete(id):
+    if request.method=='POST':
+        try:
+            ServiceService.svc_delete(service_id=id, user_id=current_user.id)
+            flash("the service is deleted")
+            return redirect(url_for('main.dashboard'))
+        except ValidationError as v:
+            flash(str(v))
+            return redirect(url_for('main.dashboard'))
+        except Exception as e:
+            flash(str(e))
+            return redirect(url_for('main.dashboard'))
+    return render_template("confirmation_of_deletion.html",service_id=id)

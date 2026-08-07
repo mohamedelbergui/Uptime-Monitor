@@ -3,9 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Document</title>
 </head>
 <body>
+<nav>
+    <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('main.add_service') }}">Add Service</a>
+    {% if current_user.is_authenticated %}
+    <form action="{{ url_for('auth.logout') }}" method="post">
+        <input type="submit" value="Logout">
+    </form>
+    {% endif %}
+    
+</nav>
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <div class="flash-messages">
