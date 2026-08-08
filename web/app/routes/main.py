@@ -26,7 +26,7 @@ def add_service():
             service = ServiceService.create_service(data=data, user_id=user_id)
             if service:
                 flash("service created successfully","success")
-                return redirect(url_for('main.home'))
+                return redirect(url_for('main.dashboard'))
             else:
                 flash("service has not been created", "error")
                 return redirect(url_for('main.add_service'))
