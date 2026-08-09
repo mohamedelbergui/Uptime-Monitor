@@ -4,12 +4,11 @@ from dotenv import load_dotenv
 
 # Locate and load the .env file from the project root
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(dotenv_path=BASE_DIR / ".env")
+load_dotenv()
 
 
 class DevelopmentConfig:
     SECRET_KEY = os.getenv("SECRET_KEY", "default-dev-key")
-
     DB_USER = os.getenv("POSTGRES_USER")
     DB_PASSWORD = os.getenv("POSTGRES_PASSWORD")
     DB_HOST = os.getenv("POSTGRES_HOST")

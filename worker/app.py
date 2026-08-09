@@ -6,9 +6,10 @@ import psycopg
 import os
 from dotenv import load_dotenv
 
-load_dotenv("../web/.env")
+load_dotenv()
 
 
+host = os.getenv("POSTGRES_HOST")
 username=os.getenv("POSTGRES_USER")
 password=os.getenv("POSTGRES_PASSWORD")
 db_name=os.getenv("POSTGRES_DB")
@@ -17,7 +18,7 @@ db_name=os.getenv("POSTGRES_DB")
 # Dictionary tracking currently running monitoring tasks: {service_id: asyncio.Task}
 running_tasks = {}
 
-CONN_STRING = f"postgresql://{username}:{password}@localhost:5432/{db_name}"
+CONN_STRING = f"postgresql://{username}:{password}@{host}:5432/{db_name}"
 
 
 
