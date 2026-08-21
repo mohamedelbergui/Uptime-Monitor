@@ -39,3 +39,4 @@ lib64/
 # --- Operating System (OS) ---
 .DS_Store
 Thumbs.db
+k8s/secret.yaml

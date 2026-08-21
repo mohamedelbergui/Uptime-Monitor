@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+  namespace: uptime-monitor
+  labels:
+    app: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: elbergui/uptime-monitor-web:v1.0.0
+          envFrom:
+            - configMapRef:
+                name: config
+            - secretRef:
+                name: secret
