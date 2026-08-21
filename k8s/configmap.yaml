@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: uptime-monitor
+  name: config
+data:
+  POSTGRES_USER: "admin"
+  POSTGRES_HOST: db-service
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: "uptime-monitor-db"
